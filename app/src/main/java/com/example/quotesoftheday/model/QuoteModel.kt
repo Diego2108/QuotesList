@@ -1,3 +1,5 @@
 package com.example.quotesoftheday.model
 
-data class QuoteModel()
+data class QuoteModel(
+    val quote:String,
+    val author:String)
