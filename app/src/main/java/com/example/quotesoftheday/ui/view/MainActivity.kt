@@ -1,11 +1,12 @@
-package com.example.quotesoftheday.view
+package com.example.quotesoftheday.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.example.quotesoftheday.databinding.ActivityMainBinding
-import com.example.quotesoftheday.viewmodel.QuoteViewModel
+import com.example.quotesoftheday.ui.viewmodel.QuoteViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
@@ -15,9 +16,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        quoteViewModel.onCreate()
+
         quoteViewModel.quoteModel.observe(this, Observer { currentQuote ->
             binding.tvQuote.text = currentQuote.quote
             binding.tvAuthor.text = currentQuote.author
+        })
+
+        quoteViewModel.isLoading.observe(this, {
+            binding.progress.isVisible = it
         })
 
         binding.viewContainer.setOnClickListener { quoteViewModel.randomQuote() }
